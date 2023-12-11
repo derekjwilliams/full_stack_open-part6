@@ -1,5 +1,3 @@
-
-
 const initialState = ''
 
 const filterReducer = (state = initialState, action) => {
@@ -11,7 +9,7 @@ const filterReducer = (state = initialState, action) => {
   }
 }
 
-export const filterChange = filter => {
+export const filterChange = (filter) => {
   return {
     type: 'SET_FILTER',
     data: filter,

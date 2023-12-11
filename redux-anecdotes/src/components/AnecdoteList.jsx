@@ -5,11 +5,13 @@ import Anecdote from './Anecdote'
 const AnecdoteList = () => {
   const dispatch = useDispatch()
 
-  const anecdotes = useSelector(state => {
-    if ( state.filter === '' ) {
+  const anecdotes = useSelector((state) => {
+    if (state.filter === '') {
       return state.anecdotes
     }
-    return state.anecdotes.filter(a => {return a.content.includes(state.filter)})
+    return state.anecdotes.filter((a) => {
+      return a.content.includes(state.filter)
+    })
   })
 
   return (
