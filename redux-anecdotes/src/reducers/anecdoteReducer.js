@@ -1,35 +1,52 @@
 import { createSlice } from '@reduxjs/toolkit'
+import anecdoteService from '../services/anecdotes'
 
 let anecdotesAtStart = []
-
-const getId = () => (100000 * Math.random()).toFixed(0)
 
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
   initialState: anecdotesAtStart,
   reducers: {
-    createAnecdote(state, action) {
-      state.push(action.payload)
-    },
-    upvoteAnecdote(state, action) {
-      const id = action.payload
-      const anecdoteToUpvote = state.find((anecdote) => anecdote.id === id)
-      const changedAnecdote = {
-        ...anecdoteToUpvote,
-        votes: anecdoteToUpvote.votes + 1,
-      }
-      return state.map((anecdote) =>
-        anecdote.id !== id ? anecdote : changedAnecdote,
-      )
-    },
     appendAnecdote(state, action) {
       state.push(action.payload)
     },
     setAnecdotes(state, action) {
       return action.payload
-    }
+    },
+    updateAnecdote(state, action) {
+      const index = state.findIndex((v) => v.id === action.payload.id)
+      if (index > -1) {
+        state[index].votes = action.payload.votes
+      }
+    },
   },
 })
 
-export const { createAnecdote, upvoteAnecdote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions
+export const { updateAnecdote, appendAnecdote, setAnecdotes } =
+  anecdoteSlice.actions
+
+export const initializeAnecdotes = () => {
+  return async (dispatch) => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch(setAnecdotes(anecdotes))
+  }
+}
+
+export const createAnecdote = (content) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch(appendAnecdote(newAnecdote))
+  }
+}
+
+export const upvoteAnecdote = (content) => {
+  return async (dispatch) => {
+    const changedAnecdote = {
+      ...content,
+      votes: content.votes + 1,
+    }
+    const updatedServerAnecdote = await anecdoteService.update(changedAnecdote)
+    dispatch(updateAnecdote(updatedServerAnecdote))
+  }
+}
 export default anecdoteSlice.reducer
