@@ -8,6 +8,7 @@ import { useNotificationDispatch } from './NotificationContext'
 const App = () => {
   const notificationDispatch = useNotificationDispatch()
   const queryClient = useQueryClient()
+
   const updateAnecdoteMutation = useMutation({
     mutationFn: updateAnecdote,
     onSuccess: () => {

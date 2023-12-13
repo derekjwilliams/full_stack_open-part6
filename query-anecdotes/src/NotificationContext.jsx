@@ -1,7 +1,6 @@
 import { createContext, useReducer, useContext } from 'react'
 
 const notificationReducer = (state, action) => {
-  console.log('action: ', action)
   switch (action.type) {
     case 'SHOW':
       return { message: action.message, visible: true }

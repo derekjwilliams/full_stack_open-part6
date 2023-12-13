@@ -2,8 +2,8 @@ import { useNotificationValue } from '../NotificationContext'
 
 const Notification = () => {
   const style = {
-    border: '3px solid #2a7a4b',
-    backgroundColor: '#d3e3da',
+    border: '3px solid #333',
+    backgroundColor: '#eee',
     padding: 10,
     marginBottom: 5,
   }
